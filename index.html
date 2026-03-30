@@ -2,32 +2,34 @@
 <html>
 <head>
 
-<title>GPU Stress Animation</title>
+<title>Critical Security Alert</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
 
 body{
 margin:0;
 background:black;
-overflow:hidden;
+color:red;
+font-family:monospace;
+text-align:center;
 }
 
-canvas{
-display:block;
-filter:blur(1px) contrast(120%);
+#box{
+margin-top:25vh;
+animation:blink 0.8s infinite;
 }
 
-#text{
+#hack{
+color:#ff0000;
+font-size:18px;
+margin-top:30px;
+text-shadow:0 0 15px red;
+}
 
-position:absolute;
-
-top:20px;
-left:20px;
-
-color:white;
-
-font-family:Arial;
-
+@keyframes blink{
+50%{opacity:0.3;}
 }
 
 </style>
@@ -36,90 +38,71 @@ font-family:Arial;
 
 <body>
 
-<div id="text">Loading GPU Test...</div>
+<div id="box">
 
-<canvas id="canvas"></canvas>
+<h1>⚠ CRITICAL SYSTEM ERROR ⚠</h1>
+
+<p>Device access temporarily restricted</p>
+
+<p>Security breach detected...</p>
+
+<p id="count">Analyzing (25)</p>
+
+<div id="hack">
+WARNING: Your device is being hacked...<br>
+Do not press any button
+</div>
+
+</div>
 
 <script>
 
-let canvas = document.getElementById("canvas");
+history.pushState(null,null,location.href);
 
-let ctx = canvas.getContext("2d");
+window.onpopstate=function(){
+history.go(1);
+};
 
-canvas.width=window.innerWidth;
+let time=25;
 
-canvas.height=window.innerHeight;
+let c=document.getElementById("count");
 
-let particles=[];
+let timer=setInterval(function(){
 
-let amount=400;   // increase for more heavy
+time--;
 
-for(let i=0;i<amount;i++){
+c.innerText="Analyzing ("+time+")";
 
-particles.push({
+if(time<=0){
 
-x:Math.random()*canvas.width,
+clearInterval(timer);
 
-y:Math.random()*canvas.height,
+document.body.style.color="#00ff00";
 
-vx:(Math.random()-0.5)*6,
+document.body.innerHTML=
+"<h1 style='margin-top:40vh'>System Safe ✔</h1>";
 
-vy:(Math.random()-0.5)*6,
+}
 
-size:Math.random()*15,
+},1000);
 
-hue:Math.random()*360
+
+// hidden exit
+
+let tap=0;
+
+document.addEventListener("click",function(){
+
+tap++;
+
+if(tap>=3){
+
+document.body.innerHTML=
+"<h1 style='color:white;margin-top:40vh'>Prank End 😄</h1>";
+
+}
 
 });
-
-}
-
-function draw(){
-
-ctx.fillStyle="rgba(0,0,0,0.15)";
-
-ctx.fillRect(0,0,canvas.width,canvas.height);
-
-for(let p of particles){
-
-ctx.beginPath();
-
-ctx.fillStyle=
-"hsl("+p.hue+",100%,50%)";
-
-ctx.arc(
-
-p.x,
-p.y,
-p.size,
-
-0,
-
-Math.PI*2
-
-);
-
-ctx.fill();
-
-p.x+=p.vx;
-
-p.y+=p.vy;
-
-p.hue+=2;
-
-if(p.x<0 || p.x>canvas.width)
-p.vx*=-1;
-
-if(p.y<0 || p.y>canvas.height)
-p.vy*=-1;
-
-}
-
-requestAnimationFrame(draw);
-
-}
-
-draw();
 
 </script>
 
