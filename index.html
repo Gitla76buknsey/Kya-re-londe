@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>GPU Stress Animation</title>
+
+<style>
+
+body{
+margin:0;
+background:black;
+overflow:hidden;
+}
+
+canvas{
+display:block;
+filter:blur(1px) contrast(120%);
+}
+
+#text{
+
+position:absolute;
+
+top:20px;
+left:20px;
+
+color:white;
+
+font-family:Arial;
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="text">Loading GPU Test...</div>
+
+<canvas id="canvas"></canvas>
+
+<script>
+
+let canvas = document.getElementById("canvas");
+
+let ctx = canvas.getContext("2d");
+
+canvas.width=window.innerWidth;
+
+canvas.height=window.innerHeight;
+
+let particles=[];
+
+let amount=400;   // increase for more heavy
+
+for(let i=0;i<amount;i++){
+
+particles.push({
+
+x:Math.random()*canvas.width,
+
+y:Math.random()*canvas.height,
+
+vx:(Math.random()-0.5)*6,
+
+vy:(Math.random()-0.5)*6,
+
+size:Math.random()*15,
+
+hue:Math.random()*360
+
+});
+
+}
+
+function draw(){
+
+ctx.fillStyle="rgba(0,0,0,0.15)";
+
+ctx.fillRect(0,0,canvas.width,canvas.height);
+
+for(let p of particles){
+
+ctx.beginPath();
+
+ctx.fillStyle=
+"hsl("+p.hue+",100%,50%)";
+
+ctx.arc(
+
+p.x,
+p.y,
+p.size,
+
+0,
+
+Math.PI*2
+
+);
+
+ctx.fill();
+
+p.x+=p.vx;
+
+p.y+=p.vy;
+
+p.hue+=2;
+
+if(p.x<0 || p.x>canvas.width)
+p.vx*=-1;
+
+if(p.y<0 || p.y>canvas.height)
+p.vy*=-1;
+
+}
+
+requestAnimationFrame(draw);
+
+}
+
+draw();
+
+</script>
+
+</body>
+
+</html>
